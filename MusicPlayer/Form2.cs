@@ -10,7 +10,6 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace MusicPlayer
 {
@@ -166,19 +165,22 @@ namespace MusicPlayer
 
         private void btnShuffle_Click(object sender, EventArgs e)
         {
+
             ListBox.ObjectCollection list = listSongs.Items;
+
             Random random = new Random();
-            int w = list.Count;
-            listSongs.BeginUpdate();
-            while(w > 1)
+            int w = paths.Length;
+            while (w > 1)
             {
                 w--;
-                int u = random.Next(w +1);
+                int u = random.Next(w + 1);
+                string temp = paths[u];
+                paths[u] = paths[w];
+                paths[w] = temp;
                 object value = list[u];
                 list[u] = list[w];
                 list[w] = value;
             }
-            listSongs.EndUpdate();
             listSongs.Invalidate();
         }
 
