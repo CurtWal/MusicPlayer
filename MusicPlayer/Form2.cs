@@ -162,14 +162,11 @@ namespace MusicPlayer
             //Allow the user to click progress bar to skip forward and backwards in the song
             Player.Ctlcontrols.currentPosition = Player.currentMedia.duration * e.X / pBar.Width;
         }
-
         private void btnShuffle_Click(object sender, EventArgs e)
         {
-
-            ListBox.ObjectCollection list = listSongs.Items;
-
             Random random = new Random();
             int w = paths.Length;
+
             while (w > 1)
             {
                 w--;
@@ -177,13 +174,18 @@ namespace MusicPlayer
                 string temp = paths[u];
                 paths[u] = paths[w];
                 paths[w] = temp;
-                object value = list[u];
-                list[u] = list[w];
-                list[w] = value;
             }
-            listSongs.Invalidate();
-        }
 
+            listSongs.Items.Clear();
+            foreach (string path in paths)
+            {
+                listSongs.Items.Add(Path.GetFileName(path));
+            }
+
+
+            // Reset selected index to avoid potential issues with playback state
+            listSongs.SelectedIndex = 0;
+        }
         private void textSearch_MouseClick(object sender, MouseEventArgs e)
         {
             textSearch.Text = "";
